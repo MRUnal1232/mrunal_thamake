@@ -3,10 +3,10 @@ name: CD Pipeline
 on:
   push:
     branches:
-      - main  # Trigger the deployment on push to the main branch
+      - main  # Trigger the pipeline on push to the main branch
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,12 +21,5 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Deploy to Heroku
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        HEROKU_APP_NAME: your-app-name  # Replace with your Heroku app name
-      run: |
-        curl https://cli-assets.heroku.com/install.sh | sh
-        heroku login -i
-        git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-        git push heroku main
+    - name: Run tests
+      run: npm test
